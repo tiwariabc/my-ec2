@@ -1,6 +1,7 @@
 variable "aws_region" {
-  description = "ap-south-1"
+  description = "provide aws region"
   type        = string
+  default     = "ap-south-1"
 }
 variable "zone"{
     description =" name of zone"
