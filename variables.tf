@@ -3,8 +3,8 @@ variable "aws_region" {
   type        = string
 }
 variable "zone"{
-    discription =" name of zone"
-    type ="string"
+    description =" name of zone"
+    type = string
     default ="ap-south-1a"
 }
 
