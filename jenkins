@@ -1,0 +1,42 @@
+pipeline {
+    agent any
+
+    tools {
+        // Jenkins tool names from Global Tool Configuration
+        jdk 'JDK11'                  // replace with your JDK name
+        maven 'Maven3'               // replace with your Maven name if using Maven
+        // No need to define SonarScanner here if using with environment below
+    }
+
+    environment {
+        SONARQUBE_SERVER = 'SonarQube Scanner'  // replace with your SonarQube server name in Jenkins
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'main', url: 'https://github.com/tiwariabc/my-ec2.git'
+            }
+        }
+
+        stage('Build') {
+            steps {
+                sh 'mvn clean install'
+            }
+        }
+
+        stage('SonarQube Analysis') {
+            steps {
+                withSonarQubeEnv('SonarQube') {  // Jenkins SonarQube server name
+                    sh 'mvn sonar:sonar -Dsonar.projectKey=my-sonar-project'  // replace projectKey with your key
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            echo 'Pipeline finished!'
+        }
+    }
+}
